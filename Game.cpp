@@ -4,7 +4,25 @@ void Game::initWindow()
 {
 	/*Creates a SFML window using options from a window.ini file.*/
 
-	this->window = new sf::RenderWindow(sf::VideoMode(1920, 1080), "Test...");
+	std::ifstream ifs("Config/window.ini");
+
+	std::string title = "None";
+	sf::VideoMode window_bounds(1920, 1080);
+	unsigned framerate_limit = 120;
+	bool vertical_sync_enabled = false;
+
+	if (ifs.is_open()) {
+		std::getline(ifs, title);
+		ifs >> window_bounds.width >> window_bounds.height;
+		ifs >> framerate_limit;
+		ifs >> vertical_sync_enabled;
+	}
+
+	ifs.close();
+
+	this->window = new sf::RenderWindow(window_bounds, title);
+	this->window->setFramerateLimit(framerate_limit);
+	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
 //Initializer Functions

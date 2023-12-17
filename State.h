@@ -5,6 +5,8 @@
 #include<ctime>
 #include<cstdlib>
 #include<vector>
+#include<fstream>
+#include<sstream>
 
 #include<SFML/Window.hpp>
 #include<SFML/Graphics.hpp>
