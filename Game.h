@@ -24,6 +24,8 @@ private:
 	sf::Clock dtClock;
 	float dt;
 
+	std::stack<State*> states;
+
 	//Initialization
 	void initWindow();
 
