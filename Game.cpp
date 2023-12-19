@@ -1,5 +1,23 @@
 #include"Game.h"
-//Static Functions
+//Constructor and Destructors
+Game::Game()
+{
+	this->initWindow();
+	this->initStates();
+}
+
+Game::~Game()
+{
+	delete this->window;
+
+	while (!this->states.empty())
+	{
+		delete this->states.top();
+		this->states.pop();
+	}
+}
+
+//Private Functions
 void Game::initWindow()
 {
 	/*Creates a SFML window using options from a window.ini file.*/
@@ -25,18 +43,9 @@ void Game::initWindow()
 	this->window->setVerticalSyncEnabled(vertical_sync_enabled);
 }
 
-//Initializer Functions
-
-
-//Constructor and Destructors
-Game::Game()
+void Game::initStates()
 {
-	this->initWindow();
-}
-
-Game::~Game()
-{
-	delete this->window;
+	this->states.push(new GameState(this->window));
 }
 
 void Game::updateDt()
@@ -59,6 +68,10 @@ void Game::updateSFMLEvents()
 void Game::update()
 {
 	this->updateSFMLEvents();
+
+	if (!this->states.empty()) {
+		this->states.top()->update(this->dt);
+	}
 }
 
 void Game::render()
@@ -66,6 +79,9 @@ void Game::render()
 	this->window->clear();
 
 	//Render Items
+	if (!this->states.empty()) {
+		this->states.top()->render(this->window);
+	}
 
 	this->window->display();
 }

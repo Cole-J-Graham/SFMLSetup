@@ -1,7 +1,8 @@
 #include "GameState.h"
 
 //Constructors and Destructors
-GameState::GameState()
+GameState::GameState(sf::RenderWindow* window)
+	: State(window)
 {
 
 }
@@ -11,13 +12,18 @@ GameState::~GameState()
 
 }
 
-//Functions
-void GameState::update()
+void GameState::endState()
 {
 
 }
 
-void GameState::render()
+//Functions
+void GameState::update(const float& dt)
+{
+	
+}
+
+void GameState::render(sf::RenderTarget* target)
 {
 
 }

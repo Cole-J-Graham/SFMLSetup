@@ -1,9 +1,9 @@
 #include "State.h"
 
-//Constructors and Destructors
-State::State()
+//Contructors and Destructors
+State::State(sf::RenderWindow* window)
 {
-
+	this->window = window;
 }
 
 State::~State()
