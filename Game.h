@@ -8,12 +8,17 @@ public:
 	//Constructors and Destructors
 	Game();
 	virtual ~Game();
+	void endApplication();
 
-	//Core Functions
+	//Update
+	void update();
 	void updateDt();
 	void updateSFMLEvents();
-	void update();
+
+	//Render
 	void render();
+
+	//Core
 	void run();
 
 private:

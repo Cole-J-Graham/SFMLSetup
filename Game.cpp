@@ -17,7 +17,12 @@ Game::~Game()
 	}
 }
 
-//Private Functions
+void Game::endApplication()
+{
+	std::cout << "Ending Applicaiton!" << "\n";
+}
+
+//Initialization (Private Functions)
 void Game::initWindow()
 {
 	/*Creates a SFML window using options from a window.ini file.*/
@@ -48,6 +53,28 @@ void Game::initStates()
 	this->states.push(new GameState(this->window));
 }
 
+//Update
+void Game::update()
+{
+	//Update Events
+	this->updateSFMLEvents();
+	//Update the states while not empty
+	if (!this->states.empty()) {
+		this->states.top()->update(this->dt);
+		//If getQuit is called in the top stack, delete the top of the stack and cleanup
+		if (this->states.top()->getQuit()) {
+			this->states.top()->endState();
+			delete this->states.top();
+			this->states.pop();
+		}
+	}
+	else {
+		//Closes game because game is dependent on window being open
+		this->endApplication();
+		this->window->close();
+	}
+}
+
 void Game::updateDt()
 {
 	/*Updates the dt variable with the time it takes to update and render one frame.*/
@@ -55,7 +82,6 @@ void Game::updateDt()
 	this->dt = this->dtClock.restart().asSeconds();
 }
 
-//Core Functions
 void Game::updateSFMLEvents()
 {
 	while (this->window->pollEvent(this->sfEvent)) {
@@ -65,15 +91,7 @@ void Game::updateSFMLEvents()
 	}
 }
 
-void Game::update()
-{
-	this->updateSFMLEvents();
-
-	if (!this->states.empty()) {
-		this->states.top()->update(this->dt);
-	}
-}
-
+//Render
 void Game::render()
 {
 	this->window->clear();
